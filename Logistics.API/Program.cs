@@ -12,6 +12,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<LogisticsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add repositories
+builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
