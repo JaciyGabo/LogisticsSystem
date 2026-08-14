@@ -3,6 +3,7 @@ using Logistics.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Logistics.Domain.Repositories;
 using Logistics.Infrastructure.Repositories;
+using Logistics.Application.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<LogisticsDbContext>(options =>
 
 // Add repositories
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+
+// Add factories
+builder.Services.AddScoped<IShipmentFactory, ShipmentFactory>();
 
 builder.Services.AddControllers();
 
