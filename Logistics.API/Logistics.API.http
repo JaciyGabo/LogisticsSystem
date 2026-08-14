@@ -9,3 +9,23 @@ Content-Type: application/json
   "isFragile": true,
   "shipmentId": "11111111-1111-1111-1111-111111111111"
 }
+
+### --- COTIZACIÓN TERRESTRE ---
+POST {{HostAddress}}/api/shipments/quote
+Content-Type: application/json
+
+{
+  "shipmentType": "terrestre",
+  "weightInKg": 10,
+  "distanceInKm": 100
+}
+
+### --- COTIZACIÓN AÉREA ---
+POST {{HostAddress}}/api/shipments/quote
+Content-Type: application/json
+
+{
+  "shipmentType": "aereo",
+  "weightInKg": 10,
+  "distanceInKm": 100
+}
