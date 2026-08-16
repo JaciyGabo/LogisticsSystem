@@ -29,3 +29,34 @@ Content-Type: application/json
   "weightInKg": 10,
   "distanceInKm": 100
 }
+
+### --- PAGOS ---
+### --- 1. PAGO EXITOSO (Tarjeta válida y limpia) ---
+POST {{HostAddress}}/api/payments
+Content-Type: application/json
+
+{
+  "amount": 150.00,
+  "cardNumber": "1234567812345678",
+  "cvv": "123"
+}
+
+### --- 2. PAGO BLOQUEADO POR FRAUDE (Tarjeta en Lista Negra) ---
+POST {{HostAddress}}/api/payments
+Content-Type: application/json
+
+{
+  "amount": 150.00,
+  "cardNumber": "4111111111111111", 
+  "cvv": "123"
+}
+
+### --- 3. PAGO BLOQUEADO POR REGLA DE NEGOCIO (Monto sospechoso > $10,000) ---
+POST {{HostAddress}}/api/payments
+Content-Type: application/json
+
+{
+  "amount": 15000.00,
+  "cardNumber": "1234567812345678",
+  "cvv": "123"
+}
