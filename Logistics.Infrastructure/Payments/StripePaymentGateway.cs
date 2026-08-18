@@ -1,6 +1,6 @@
 namespace Logistics.Infrastructure.Payments;
 
-public class StripePaymentGateway
+public class StripePaymentGateway : IStripePaymentGateway
 {
     public async Task<bool> ChargeAsync(decimal amount, string cardNumber)
     {

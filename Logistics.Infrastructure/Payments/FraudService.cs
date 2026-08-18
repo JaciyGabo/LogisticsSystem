@@ -1,6 +1,6 @@
 namespace Logistics.Infrastructure.Payments;
 
-public class FraudService
+public class FraudService : IFraudService
 {
     private readonly List<string> _blacklistedCards = new() 
     { 

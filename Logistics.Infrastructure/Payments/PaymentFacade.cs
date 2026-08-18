@@ -7,12 +7,16 @@ public class PaymentFacade : IPaymentFacade
     private readonly StripePaymentGateway _paymentGateway;
     private readonly InvoiceService _invoiceService;
 
-    public PaymentFacade()
+    public PaymentFacade(
+        ICardValidator cardValidator,
+        IFraudService fraudService,
+        IStripePaymentGateway paymentGateway,
+        IInvoiceService invoiceService)
     {
-        _cardValidator = new CardValidator();
-        _fraudService = new FraudService();
-        _paymentGateway = new StripePaymentGateway();
-        _invoiceService = new InvoiceService();
+        _cardValidator = cardValidator;
+        _fraudService = fraudService;
+        _paymentGateway = paymentGateway;
+        _invoiceService = invoiceService;
     }
 
     public async Task<(bool Success, string Message, string InvoiceNumber)> ProcessOrderPaymentAsync(decimal amount, string cardNumber, string cvv)

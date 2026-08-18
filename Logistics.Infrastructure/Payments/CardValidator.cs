@@ -1,6 +1,6 @@
 namespace Logistics.Infrastructure.Payments;
 
-public class CardValidator
+public class CardValidator : ICardValidator
 {
     public bool Validate(string cardNumber, string cvv)
     {

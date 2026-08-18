@@ -22,6 +22,12 @@ builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 // Add factories
 builder.Services.AddScoped<IShipmentFactory, ShipmentFactory>();
 
+// Add payment services
+builder.Services.AddScoped<ICardValidator, CardValidator>();
+builder.Services.AddScoped<IFraudService, FraudService>();
+builder.Services.AddScoped<IStripePaymentGateway, StripePaymentGateway>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+
 // Add payment facade
 builder.Services.AddScoped<IPaymentFacade, PaymentFacade>();
 

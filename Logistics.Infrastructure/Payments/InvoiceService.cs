@@ -1,6 +1,6 @@
 namespace Logistics.Infrastructure.Payments;
 
-public class InvoiceService
+public class InvoiceService : IInvoiceService
 {
     public string GenerateInvoice(decimal amount)
     {
