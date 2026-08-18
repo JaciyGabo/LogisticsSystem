@@ -35,7 +35,7 @@ public class ShipmentsController : ControllerBase
         }
         catch (ArgumentException ex)
         {
-            FileLogger.Instance.Log($"Error in quote request: {ex.Message}");
+            FileLogger.Instance.Log($"Error en cotización: {ex.Message}", "ERROR", ex);
             return BadRequest(new { Error = ex.Message });
         }
     }

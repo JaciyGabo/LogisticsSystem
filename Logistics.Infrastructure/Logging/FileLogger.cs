@@ -13,12 +13,15 @@ public sealed class FileLogger
 
     public static FileLogger Instance => _instance.Value;
 
-    public void Log(string message)
+    public void Log(string message, string level = "INFO", Exception? ex = null)
     {
         lock (_lock)
-        {
-            using StreamWriter writer = new StreamWriter(_filePath, true);
-            writer.WriteLine($"[{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}] INFO: {message}");
-        }
+        using StreamWriter writer = new StreamWriter(_filePath, true);
+            writer.WriteLine($"[{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}] {level}: {message}");
+            
+            if (ex != null)
+            {
+                writer.WriteLine($"[STACKTRACE]: {ex.StackTrace}");
+            }
     }
 }
