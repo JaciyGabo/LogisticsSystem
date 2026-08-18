@@ -2,6 +2,7 @@ using Logistics.Application.DTOs;
 using Logistics.Application.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Logistics.Infrastructure.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Logistics.API.Controllers;
 
@@ -10,10 +11,14 @@ namespace Logistics.API.Controllers;
 public class ShipmentsController : ControllerBase
 {
     private readonly IShipmentFactory _shipmentFactory;
+    private readonly ILogger<ShipmentsController> _logger;
 
-    public ShipmentsController(IShipmentFactory shipmentFactory)
+    public ShipmentsController(
+        IShipmentFactory shipmentFactory, 
+        ILogger<ShipmentsController> logger)
     {
         _shipmentFactory = shipmentFactory;
+        _logger = logger;
     }
 
     [HttpPost("quote")]
@@ -21,21 +26,26 @@ public class ShipmentsController : ControllerBase
     {
         try
         {
-            var shipmentMethod = _shipmentFactory.CreateShipmentMethod(request.ShipmentType);
+            if (!Enum.TryParse<ShipmentType>(request.ShipmentType, true, out var shipmentEnum))
+            {
+                return BadRequest(new { Error = $"El tipo de envío '{request.ShipmentType}' no existe." });
+            }
+
+            var shipmentMethod = _shipmentFactory.CreateShipmentMethod(shipmentEnum);
             var cost = shipmentMethod.CalculateCost(request.WeightInKg, request.DistanceInKm);
 
-            FileLogger.Instance.Log($"Quote request: {request.ShipmentType}, Cost: {cost}");
+            _logger.LogInformation("Cotización exitosa: {ShipmentType} | Costo: ${Cost}", shipmentEnum, cost);
 
             return Ok(new 
             { 
-                Type = request.ShipmentType, 
+                Type = shipmentEnum.ToString(), 
                 EstimatedCost = cost,
                 Currency = "USD"
             });
         }
         catch (ArgumentException ex)
         {
-            FileLogger.Instance.Log($"Error en cotización: {ex.Message}", "ERROR", ex);
+            _logger.LogError(ex, "Error en cotización: {Message}", ex.Message);
             return BadRequest(new { Error = ex.Message });
         }
     }
