@@ -1,6 +1,7 @@
 using Logistics.Application.DTOs;
 using Logistics.Application.Factories;
 using Microsoft.AspNetCore.Mvc;
+using Logistics.Infrastructure.Logging;
 
 namespace Logistics.API.Controllers;
 
@@ -21,8 +22,9 @@ public class ShipmentsController : ControllerBase
         try
         {
             var shipmentMethod = _shipmentFactory.CreateShipmentMethod(request.ShipmentType);
-
             var cost = shipmentMethod.CalculateCost(request.WeightInKg, request.DistanceInKm);
+
+            FileLogger.Instance.Log($"Quote request: {request.ShipmentType}, Cost: {cost}");
 
             return Ok(new 
             { 
@@ -33,6 +35,7 @@ public class ShipmentsController : ControllerBase
         }
         catch (ArgumentException ex)
         {
+            FileLogger.Instance.Log($"Error in quote request: {ex.Message}");
             return BadRequest(new { Error = ex.Message });
         }
     }
