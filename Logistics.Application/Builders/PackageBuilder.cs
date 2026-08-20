@@ -45,10 +45,20 @@ public class PackageBuilder : IPackageBuilder
 
     public Package Build()
     {
-        var result = _package;
+
+        if (string.IsNullOrWhiteSpace(_package.Description))
+            throw new InvalidOperationException("No se puede crear un paquete sin descripción.");
+
+        if (_package.WeightInKg <= 0)
+            throw new InvalidOperationException("El peso del paquete debe ser mayor a 0 kg.");
+
+        if (_package.ShipmentId == Guid.Empty)
+            throw new InvalidOperationException("El paquete debe estar asignado a un envío válido.");
+            
+        var builtPackage = _package;
         
         Reset(); 
         
-        return result;
+        return builtPackage;
     }
 }

@@ -19,9 +19,7 @@ public class PackagesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreatePackage([FromBody] CreatePackageRequest request)
     {
-        var builder = new PackageBuilder();
-
-        var newPackage = builder
+        var builder = new PackageBuilder()
             .WithDescription(request.Description)
             .SetWeight(request.WeightInKg)
             .AssignToShipment(request.ShipmentId);
@@ -31,11 +29,18 @@ public class PackagesController : ControllerBase
             builder.MakeFragile();
         }
 
-        var packageToSave = builder.Build();
+        try
+        {
+            var packageToSave = builder.Build();
 
-        await _repository.AddAsync(packageToSave);
-        await _repository.SaveChangesAsync();
+            await _repository.AddAsync(packageToSave);
+            await _repository.SaveChangesAsync();
 
-        return Created("", packageToSave); 
+            return Created("", packageToSave); 
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest( new { Error = ex.Message });
+        }
     }
 }
