@@ -1,4 +1,5 @@
 using Logistics.Domain.Entities;
+using System;
 
 namespace Logistics.Application.Builders;
 
@@ -13,10 +14,7 @@ public class PackageBuilder : IPackageBuilder
 
     public void Reset()
     {
-        _package = new Package
-        {
-            Id = Guid.NewGuid() 
-        };
+        _package = new Package{ Id = Guid.NewGuid() };
     }
 
     public IPackageBuilder WithDescription(string description)
