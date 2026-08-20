@@ -4,7 +4,7 @@ namespace Logistics.Application.Builders;
 
 public class PackageBuilder : IPackageBuilder
 {
-    private Package _package;
+    private Package _package = null!;
 
     public PackageBuilder()
     {

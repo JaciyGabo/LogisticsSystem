@@ -2,10 +2,10 @@ namespace Logistics.Infrastructure.Payments;
 
 public class PaymentFacade : IPaymentFacade
 {
-    private readonly CardValidator _cardValidator;
-    private readonly FraudService _fraudService;
-    private readonly StripePaymentGateway _paymentGateway;
-    private readonly InvoiceService _invoiceService;
+    private readonly ICardValidator _cardValidator;
+    private readonly IFraudService _fraudService;
+    private readonly IStripePaymentGateway _paymentGateway;
+    private readonly IInvoiceService _invoiceService;
 
     public PaymentFacade(
         ICardValidator cardValidator,

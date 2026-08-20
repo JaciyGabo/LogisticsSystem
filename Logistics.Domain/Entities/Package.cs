@@ -7,5 +7,5 @@ public class Package
   public double WeightInKg { get; set; }
   public bool IsFragile { get; set; }   
   public Guid ShipmentId { get; set; }
-  public Shipment Shipment { get; set; } 
+  public Shipment? Shipment { get; set; } 
 }

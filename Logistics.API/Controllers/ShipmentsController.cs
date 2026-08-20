@@ -1,7 +1,7 @@
 using Logistics.Application.DTOs;
 using Logistics.Application.Factories;
+using Logistics.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Logistics.Infrastructure.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Logistics.API.Controllers;
